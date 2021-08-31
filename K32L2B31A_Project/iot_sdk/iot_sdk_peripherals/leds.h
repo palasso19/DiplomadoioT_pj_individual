@@ -36,19 +36,20 @@
 /*******************************************************************************
  * Public Prototypes
  ******************************************************************************/
+void encender_led_verde();
+void apagar_led_verde();
+
+void encender_led_rojo();
+void apagar_led_rojo();
 /*!
  * @brief enciende led verde de tarjeta FRDM-K32L2B3
  *
  */
-void encender_led_verde();
 /*-----------------------------------------------------------------------------*/
 /*!
  * @brief apaga led verde de tarjeta FRDM-K32L2B3
  *
  */
-void apagar_led_verde();
-
-
 
 /** @} */ // end of X LEDS
 /** @} */ // end of X PERIPHERALS
