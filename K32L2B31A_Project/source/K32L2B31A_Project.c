@@ -73,14 +73,30 @@ int main(void) {
 
     volatile static int i = 0 ;/* Force the counter to be placed into memory. */
     /* Enter an infinite loop, just incrementing a counter. */
+    printf("Inicia");
+
+    bool intercambio = false;
+
     while(1) {
-        i++ ;
-        printf("i:%u\r\n",i);
-        encender_led_verde();
-        delay_block();
-        apagar_led_verde();
-        delay_block();
+
+        for(short k = 0; k < 5 ; k++ ) {
+            encender_led_verde();
+            delay_block();
+            apagar_led_verde();
+            delay_block();
+        }
+
+        if( !intercambio ){ 
+            intercambio = true;
+            encender_led_rojo();
+            delay_block();
+        }else{
+            intercambio = false;
+            apagar_led_rojo();
+            delay_block();
+        }
 
     }
-    return 0 ;
+
+    return 0;
 }

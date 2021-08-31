@@ -11,6 +11,7 @@
  ******************************************************************************/
 #include "leds.h"
 #include "fsl_gpio.h"
+#include "board.h"
 
 /*******************************************************************************
  * Definitions
@@ -42,10 +43,20 @@
  ******************************************************************************/
  void encender_led_verde(){
 	 //encender led verde
-	 GPIO_PinWrite(GPIOD,5,0);
+	 GPIO_PinWrite(GPIOD, 5, 0);
  }
 
  void apagar_led_verde(){
 	 //apagar led verde
-	 GPIO_PinWrite(GPIOD,5,1);
+	 GPIO_PinWrite(GPIOD, 5, 1);
+ }
+
+ void encender_led_rojo(){
+	 //encender led rojo
+	 GPIO_PinWrite(GPIOE, 31U, 0);
+ }
+
+ void apagar_led_rojo(){
+	 //apagar led rojo
+	 GPIO_PinWrite(GPIOE, 31U, 1);
  }
