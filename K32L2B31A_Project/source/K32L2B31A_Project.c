@@ -79,7 +79,7 @@ int main(void) {
 
     while(1) {
 
-        for(short k = 0; k < 5 ; k++ ) {
+        for(short k = 0; k < 10 ; k++ ) {
             encender_led_verde();
             delay_block();
             apagar_led_verde();
