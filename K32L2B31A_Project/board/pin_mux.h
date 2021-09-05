@@ -352,6 +352,12 @@ void BOARD_InitACCEL_I2CPins(void);
  */
 void BOARD_InitOSCPins(void);
 
+/*!
+ * @brief Configures pin routing and optionally pin electrical features.
+ *
+ */
+void BOARD_iniADCpins(void);
+
 #if defined(__cplusplus)
 }
 #endif
