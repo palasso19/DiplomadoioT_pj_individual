@@ -1,42 +1,44 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="org.eclipse.cdt.core.cSource.contenttype_context" deleted="false" description="Default template for newly created C source files" enabled="true" id="org.eclipse.cdt.ui.text.codetemplates.csourcefile" name="Default C source template">/*! @file : ${file_name}
+/*! @file : botones.h
  * @author  PABLO LASSO HERNANDEZ
  * @version 1.0.0
- * @date    ${date}
- * @brief   Driver para 
+ * @date    5/09/2021
+ * @brief   Driver para lectura de botones en FRDM-K32L2B
  * @details
  *
-*/
+ */
+#ifndef IOT_SDK_PERIPHERALS_BOTONES_H_
+#define IOT_SDK_PERIPHERALS_BOTONES_H_
 /*******************************************************************************
  * Includes
  ******************************************************************************/
+#include "peripherals.h"
 
-
+/*!
+ * @addtogroup PERIPHERALS
+ * @{
+ */
+/*!
+ * @addtogroup BOTONES
+ * @{
+ */
 /*******************************************************************************
- * Definitions
+ * Public Definitions
  ******************************************************************************/
-
-
-/*******************************************************************************
- * Private Prototypes
- ******************************************************************************/
-
 
 /*******************************************************************************
  * External vars
  ******************************************************************************/
 
-
 /*******************************************************************************
- * Local vars
+ * Public vars
  ******************************************************************************/
 
-
 /*******************************************************************************
- * Private Source Code
+ * Public Prototypes
  ******************************************************************************/
+bool boton1LeerEstado();
+bool boton2LeerEstado();
+/** @} */ // end of BOTONES group
+/** @} */ // end of PERIPHERALS group
 
-
-/*******************************************************************************
- * Public Source Code
- ******************************************************************************/
- </template></templates>
+#endif /* IOT_SDK_PERIPHERALS_BOTONES_H_ */

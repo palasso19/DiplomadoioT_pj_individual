@@ -21,8 +21,8 @@
 
 #include "leds.h"
 #include "sensor_de_luz.h"
-
-
+#include "irq_lptmr0.h"
+#include "botones.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -43,19 +43,11 @@ float dato_float=3.1416;
 /*******************************************************************************
  * Private Source Code
  ******************************************************************************/
-/*!
- * @brief genera bloqueo de microcontrolador por tiempo fijo
- *
- */
-void delay_block(void){
-	uint32_t i;
-	for(i=0;i<0xFFFFF;i++){
 
-	}
-}
 
 int main(void) {
 	uint32_t adc_sensor_de_luz;
+	bool boton1,boton2;
 
     /* Init board hardware. */
     BOARD_InitBootPins();
@@ -69,6 +61,8 @@ int main(void) {
     PRINTF("Hello World\r\n");
     printf("test_global_var:%d\r\n",test_global_var);
     printf("dato_float:%g\r\n",dato_float);
+    /* Start counting */
+        LPTMR_StartTimer(LPTMR0);
 
 
 
@@ -81,18 +75,19 @@ int main(void) {
 
 
     while(1) {
-    	i++ ;
-    	printf("i:%u\r\n",i);
 
-        encender_led_verde();
-        delay_block();
-        apagar_led_verde();
-        delay_block();
-
-
-        adc_sensor_de_luz=SensorDeLuzObtenerDatoADC();
-        printf("adc sensor de luz:%u\r\n",adc_sensor_de_luz);
-
+    	if(lptmr0_irq_counter!=0){
+    		toggle_led_rojo();
+    		lptmr0_irq_counter=0;
+    		i++ ;
+    		printf("i:%u\r\n",i);
+    		adc_sensor_de_luz=SensorDeLuzObtenerDatoADC();
+    		printf("sensor de luz:%u\r\n",adc_sensor_de_luz);
+    		boton1=boton1LeerEstado();
+    		boton2=boton2LeerEstado();
+    		printf("boton1:%u\r\n",boton1);
+    		printf("boton2:%u\r\n",boton2);
+    	}
     }
 
     return 0;

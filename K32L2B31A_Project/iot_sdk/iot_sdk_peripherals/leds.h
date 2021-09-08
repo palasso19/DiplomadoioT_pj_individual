@@ -39,12 +39,13 @@
 void encender_led_verde();
 void apagar_led_verde();
 
-void encender_led_rojo();
-void apagar_led_rojo();
+void toggle_led_rojo();
 /*!
- * @brief enciende led verde de tarjeta FRDM-K32L2B3
+ * @brief invierte estado del led rojo de tarjeta FRDM-K32L2B3
  *
  */
+
+void toggle_led_rojo();
 /*-----------------------------------------------------------------------------*/
 /*!
  * @brief apaga led verde de tarjeta FRDM-K32L2B3
