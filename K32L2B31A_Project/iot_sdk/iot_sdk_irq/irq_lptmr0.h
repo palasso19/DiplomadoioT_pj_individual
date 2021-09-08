@@ -1,42 +1,44 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="org.eclipse.cdt.core.cSource.contenttype_context" deleted="false" description="Default template for newly created C source files" enabled="true" id="org.eclipse.cdt.ui.text.codetemplates.csourcefile" name="Default C source template">/*! @file : ${file_name}
+/*! @file : irq_lptmr0.h
  * @author  PABLO LASSO HERNANDEZ
  * @version 1.0.0
- * @date    ${date}
- * @brief   Driver para 
+ * @date    5/09/2021
+ * @brief   Driver para IRQ de LPTMR0
  * @details
  *
-*/
+ */
+#ifndef IOT_SDK_IRQ_IRQ_LPTMR0_H_
+#define IOT_SDK_IRQ_IRQ_LPTMR0_H_
 /*******************************************************************************
  * Includes
  ******************************************************************************/
+#include "peripherals.h"
 
-
+/*!
+ * @addtogroup IRQ
+ * @{
+ */
+/*!
+ * @addtogroup LPTMR0
+ * @{
+ */
 /*******************************************************************************
- * Definitions
+ * Public Definitions
  ******************************************************************************/
-
-
-/*******************************************************************************
- * Private Prototypes
- ******************************************************************************/
-
 
 /*******************************************************************************
  * External vars
  ******************************************************************************/
 
-
 /*******************************************************************************
- * Local vars
+ * Public vars
+ ******************************************************************************/
+extern volatile uint32_t lptmr0_irq_counter;
+/*******************************************************************************
+ * Public Prototypes
  ******************************************************************************/
 
 
-/*******************************************************************************
- * Private Source Code
- ******************************************************************************/
+/** @} */ // end of LPTMR0 group
+/** @} */ // end of IRQ group
 
-
-/*******************************************************************************
- * Public Source Code
- ******************************************************************************/
- </template></templates>
+#endif /* IOT_SDK_IRQ_IRQ_LPTMR0_H_ */

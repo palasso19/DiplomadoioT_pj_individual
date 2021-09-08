@@ -1,18 +1,16 @@
-/*! @file : leds.c
- * @author  Ernesto Andres Rincon Cruz
+/*! @file : bonotenes.c
+ * @author  PABLO LASSO HERNANDEZ
  * @version 1.0.0
- * @date    29/08/2021
- * @brief   Driver para controlar LEDs de tarjeta FRDM-K32L2B3
+ * @date    5/09/2021
+ * @brief   Driver para 
  * @details
  *
 */
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "leds.h"
+#include "botones.h"
 #include "fsl_gpio.h"
-#include "board.h"
-
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -41,19 +39,28 @@
 /*******************************************************************************
  * Public Source Code
  ******************************************************************************/
- void encender_led_verde(){
-	 //encender led verde
-	 GPIO_PinWrite(GPIOD, 5, 0);
- }
+bool boton1LeerEstado(){
+	uint32_t valor_pin;
+	bool resultado;
+	valor_pin=GPIO_PinRead(GPIOC,3);
+	if(valor_pin!=0)
+		resultado=true;
+	else
+		resultado=false;
 
- void apagar_led_verde(){
-	 //apagar led verde
-	 GPIO_PinWrite(GPIOD, 5, 1);
- }
-
- void toggle_led_rojo(){
-	 //encender led rojo
-	 GPIO_PortToggle(GPIOE, 1U<<31);
- }
+	return(resultado);
 
 
+}
+
+bool boton2LeerEstado(){
+	uint32_t valor_pin;
+		bool resultado;
+		valor_pin=GPIO_PinRead(GPIOA,4);
+		if(valor_pin!=0)
+			resultado=true;
+		else
+			resultado=false;
+		return(resultado);
+
+}
