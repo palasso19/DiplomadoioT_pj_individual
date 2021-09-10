@@ -675,6 +675,11 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="ADC0.adc_se.26" description="Signal SE of the channel 26 of the peripheral ADC0 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="LPO_clock" description="LPO clock is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -727,6 +732,14 @@
                               <setting name="channelNumber" value="SE.3"/>
                               <setting name="enableInterruptOnConversionCompleted" value="false"/>
                               <setting name="channelGroup" value="0"/>
+                              <setting name="initializeChannel" value="false"/>
+                           </struct>
+                           <struct name="1">
+                              <setting name="channelName" value=""/>
+                              <setting name="enableDifferentialConversion" value="false"/>
+                              <setting name="channelNumber" value="SE.26"/>
+                              <setting name="enableInterruptOnConversionCompleted" value="false"/>
+                              <setting name="channelGroup" value="0"/>
                               <setting name="initializeChannel" value="true"/>
                            </struct>
                         </array>
@@ -743,7 +756,7 @@
                            <setting name="prescalerClockSource" value="kLPTMR_PrescalerClock_1"/>
                            <setting name="clockSource" value="BOARD_BootClockRUN"/>
                            <setting name="value" value="kLPTMR_Prescale_Glitch_0"/>
-                           <setting name="timerPeriod" value="1s"/>
+                           <setting name="timerPeriod" value="2ms"/>
                         </struct>
                         <setting name="enableInterrupt" value="true"/>
                         <struct name="interrupt">
