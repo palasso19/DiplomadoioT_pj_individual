@@ -23,6 +23,8 @@
 #include "sensor_de_luz.h"
 #include "irq_lptmr0.h"
 #include "botones.h"
+#include "sensor_de_Temperatura.h"
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -46,8 +48,8 @@ float dato_float=3.1416;
 
 
 int main(void) {
-	uint32_t adc_sensor_de_luz;
-	bool boton1,boton2;
+	float sensor_de_luz, sensor_de_Temperatura;
+	bool boton1_activado,boton2_activado;
 
     /* Init board hardware. */
     BOARD_InitBootPins();
@@ -68,27 +70,49 @@ int main(void) {
 
 
 
-    volatile static int i = 0 ;/* Force the counter to be placed into memory. */
-    /* Enter an infinite loop, just incrementing a counter. */
-    printf("Inicia");
-
-
-
     while(1) {
 
-    	if(lptmr0_irq_counter!=0){
-    		toggle_led_rojo();
-    		lptmr0_irq_counter=0;
-    		i++ ;
-    		printf("i:%u\r\n",i);
-    		adc_sensor_de_luz=SensorDeLuzObtenerDatoADC();
-    		printf("sensor de luz:%u\r\n",adc_sensor_de_luz);
-    		boton1=boton1LeerEstado();
-    		boton2=boton2LeerEstado();
-    		printf("boton1:%u\r\n",boton1);
-    		printf("boton2:%u\r\n",boton2);
+    	if(lptmr0_irq_counter != 0){
+
+
+    		lptmr0_irq_counter = 0;
+
+    		boton1_activado = !boton1LeerEstado();
+    		boton2_activado = !boton2LeerEstado();
+
+    		if(boton1_activado && !flag_boton1_presionado){
+    			flag_boton1_presionado = 1;
+    			sensor_de_luz = SensorDeLuzObtenerDatoADC();
+    			printf("luminosidad en lux: %.3f\r\n", sensor_de_luz);
+    		}
+
+    		if(!boton1_activado){
+    			flag_boton1_presionado = 0;
+    		}
+
+    		if(boton2_activado && !flag_boton2_presionado){
+    			flag_boton2_presionado = 1;
+    			sensor_de_Temperatura = SensorDeTemperaturaObtenerDatoADC();
+    			printf("Temperatura en grados: %.3f\r\n", sensor_de_Temperatura);
+
+
+    		}
+
+    		if(!boton2_activado){
+    			flag_boton2_presionado = 0;
+    		}
+
+    	}
+
+
+
+    		if(flag_led_rojo_iqr_counter == 1000){
+
+    		   flag_led_rojo_iqr_counter = 0;
+    		   toggle_led_rojo();
     	}
     }
+
 
     return 0;
 }

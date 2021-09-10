@@ -64,9 +64,9 @@ void SensorDeTemperaturaEsperarResultado(void){
 
 
 
-uint32_t SensorDeTemperaturaObtenerDatoADC(void){
+float SensorDeTemperaturaObtenerDatoADC(void){
 
-	uint32_t resultadoADC;
+	float resultadoADC;
 	SensorDeTemperaturaIniciarCaptura();
 	SensorDeTemperaturaEsperarResultado();
 	resultadoADC=ADC16_GetChannelConversionValue(SENSOR_DE_TEMPERATURA_ADC16_BASE, SENSOR_DE_TEMPERATURA_ADC16_CHANNEL_GROUP);

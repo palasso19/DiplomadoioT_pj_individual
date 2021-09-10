@@ -44,7 +44,7 @@
  * @brief Retorna resultado de la conversion ADC para sensor de Temperatura
  *
  */
-uint32_t SensorDeTemperaturaObtenerDatoADC(void);
+float SensorDeTemperaturaObtenerDatoADC(void);
 
 /** @} */ // end of SENSOR_DE_TEMPERATURA group
 /** @} */ // end of PERIPHERALS group
