@@ -1,4 +1,4 @@
-/*! @file : sensor_de_luz.c
+/*! @file : sensor_de_Temperatura.c
  * @author  PABLO LASSO HERNANDEZ
  * @version 1.0.0
  * @date    4/09/2021
@@ -9,27 +9,27 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "sensor_de_luz.h"
+#include "sensor_de_Temperatura.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-#define SENSOR_DE_LUZ_ADC16_BASE          ADC0
-#define SENSOR_DE_LUZ_ADC16_CHANNEL_GROUP 0U
-#define SENSOR_DE_LUZ_ADC16_USER_CHANNEL  3U /* PTE22, ADC0_SE3 */
+#define SENSOR_DE_TEMPERATURA_ADC16_BASE          ADC0
+#define SENSOR_DE_TEMPERATURA_ADC16_CHANNEL_GROUP 0U
+#define SENSOR_DE_TEMPERATURA_ADC16_USER_CHANNEL  26U /* PTE22, ADC0_SE3 */
 
 /*******************************************************************************
  * Private Prototypes
  ******************************************************************************/
 /*!
- * @brief Inicia captura por ADC de Voltaje generado por sensor de luz
+ * @brief Inicia captura por ADC de Voltaje generado por sensor de temperatura
  *
  */
-void SensorDeLuzIniciarCaptura(void);
+void SensorDeTemperaturaIniciarCaptura(void);
 /*!
  * @brief Espera a que finalice el trabajo del ADC
  *
  */
-void SensorDeLuzEsperarResultado(void);
+void SensorDeTemperaturaEsperarResultado(void);
 
 /*******************************************************************************
  * External vars
@@ -44,14 +44,14 @@ void SensorDeLuzEsperarResultado(void);
 /*******************************************************************************
  * Private Source Code
  ******************************************************************************/
-void SensorDeLuzIniciarCaptura(void){
-	 ADC16_SetChannelConfig(SENSOR_DE_LUZ_ADC16_BASE, SENSOR_DE_LUZ_ADC16_CHANNEL_GROUP, &ADC0_channelsConfig[0]);
+void SensorDeTemperaturaIniciarCaptura(void){
+	 ADC16_SetChannelConfig(SENSOR_DE_TEMPERATURA_ADC16_BASE, SENSOR_DE_TEMPERATURA_ADC16_CHANNEL_GROUP, &ADC0_channelsConfig[1]);
 
 }
 
 /*----------------------------------------------------------------------------*/
-void SensorDeLuzEsperarResultado(void){
-	  while (0U == (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(SENSOR_DE_LUZ_ADC16_BASE, SENSOR_DE_LUZ_ADC16_CHANNEL_GROUP)))
+void SensorDeTemperaturaEsperarResultado(void){
+	  while (0U == (kADC16_ChannelConversionDoneFlag & ADC16_GetChannelStatusFlags(SENSOR_DE_TEMPERATURA_ADC16_BASE, SENSOR_DE_TEMPERATURA_ADC16_CHANNEL_GROUP)))
 	        {
 	        }
 
@@ -63,14 +63,15 @@ void SensorDeLuzEsperarResultado(void){
  ******************************************************************************/
 
 
-float  SensorDeLuzObtenerDatoADC(void){
 
-	float resultadoADC;
-	SensorDeLuzIniciarCaptura();
-	SensorDeLuzEsperarResultado();
-	resultadoADC=ADC16_GetChannelConversionValue(SENSOR_DE_LUZ_ADC16_BASE, SENSOR_DE_LUZ_ADC16_CHANNEL_GROUP);
-	resultadoADC = (2*(3.3-(3.3/resultadoADC)))*100;
+uint32_t SensorDeTemperaturaObtenerDatoADC(void){
 
+	uint32_t resultadoADC;
+	SensorDeTemperaturaIniciarCaptura();
+	SensorDeTemperaturaEsperarResultado();
+	resultadoADC=ADC16_GetChannelConversionValue(SENSOR_DE_TEMPERATURA_ADC16_BASE, SENSOR_DE_TEMPERATURA_ADC16_CHANNEL_GROUP);
+	resultadoADC=(3*resultadoADC)/4095;
+	resultadoADC = (resultadoADC*90)/3.3;
 
 	return (resultadoADC);
 
