@@ -40,27 +40,15 @@
  * Public Source Code
  ******************************************************************************/
 bool boton1LeerEstado(){
-	uint32_t valor_pin;
-	bool resultado;
-	valor_pin=GPIO_PinRead(GPIOC,3);
-	if(valor_pin!=0)
-		resultado=true;
-	else
-		resultado=false;
-
-	return(resultado);
+	uint32_t valor_pin = GPIO_PinRead(GPIOC,3);
+	return (bool) valor_pin;
 
 
 }
 
 bool boton2LeerEstado(){
-	uint32_t valor_pin;
-		bool resultado;
-		valor_pin=GPIO_PinRead(GPIOA,4);
-		if(valor_pin!=0)
-			resultado=true;
-		else
-			resultado=false;
-		return(resultado);
+	uint32_t valor_pin = GPIO_PinRead(GPIOA,4);
+
+	return (bool) valor_pin;
 
 }

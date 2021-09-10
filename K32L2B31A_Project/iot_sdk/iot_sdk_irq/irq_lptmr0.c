@@ -30,6 +30,9 @@
  * Local vars
  ******************************************************************************/
 volatile uint32_t lptmr0_irq_counter=0;
+volatile uint32_t flag_led_rojo_iqr_counter = 0;
+volatile uint32_t flag_boton1_presionado = 0;
+volatile uint32_t flag_boton2_presionado = 0;
 
 /*******************************************************************************
  * Private Source Code
@@ -49,6 +52,7 @@ void LPTMR0_IRQHANDLER(void) {
 
 
   lptmr0_irq_counter++;
+  flag_led_rojo_iqr_counter+=5;
 
   /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F
      Store immediate overlapping exception return operation might vector to incorrect interrupt. */

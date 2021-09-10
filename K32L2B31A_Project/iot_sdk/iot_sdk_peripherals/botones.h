@@ -12,6 +12,7 @@
  * Includes
  ******************************************************************************/
 #include "peripherals.h"
+#include "fsl_gpio.h"
 
 /*!
  * @addtogroup PERIPHERALS
