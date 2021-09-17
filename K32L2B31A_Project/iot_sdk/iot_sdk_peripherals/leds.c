@@ -51,9 +51,18 @@
 	 GPIO_PinWrite(GPIOD, 5, 1);
  }
 
- void toggle_led_rojo(){
+// void toggle_led_rojo(){
 	 //encender led rojo
-	 GPIO_PortToggle(GPIOE, 1U<<31);
- }
+	// GPIO_PortToggle(GPIOE, 1U<<31);
+//}
+ void encender_led_rojo(){
+ 	 //encender led rojo
+ 	 GPIO_PinWrite(GPIOE, 31U, 0);
+  }
+
+  void apagar_led_rojo(){
+ 	 //apagar led rojo
+ 	 GPIO_PinWrite(GPIOE, 31U, 1);
+  }
 
 

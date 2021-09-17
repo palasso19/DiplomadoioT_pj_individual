@@ -39,11 +39,17 @@ enum _ec25_lista_comandos_at {
 };
 
 enum _lista_comandos_control {
-	LED_VERDE_ON = 0,
+	LED_VERDE_ON,
 	LED_VERDE_OFF,
+	LED_ROJO_ON,
+	LED_ROJO_OFF,
+	Temperatura,
+	LUZ,
+	ATI,
+	OK,
 };
 
-#define COMANDOS_DISPONIBLES  2
+#define COMANDOS_DISPONIBLES  8
 #define SIZE_BUFFER_COMANDO 50
 /*******************************************************************************
  * Private Prototypes
@@ -77,6 +83,12 @@ const char *ec25_respuestas_at[]={
 const char *comandos_control[] = {
     "LED_VERDE_ON",            //Enciende LED
 	"LED_VERDE_OFF",            //Apaga LED
+	"LED_ROJO_ON",
+	"LED_ROJO_OFF",
+	"Temperatura",
+	"LUZ",
+	"ATI",
+	"OK",
     };
 char buffer_nuevo_comando_recibido[SIZE_BUFFER_COMANDO];
 uint32_t index_buffer_nuevo_comando_recibido=0;
@@ -85,14 +97,14 @@ uint32_t index_buffer_nuevo_comando_recibido=0;
  ******************************************************************************/
 
 void limpiarBufferComando(){
-	for(int i=0;i<SIZE_BUFFER_COMANDO;i++){
+	for(int i=0;i<50;i++){
 		buffer_nuevo_comando_recibido[i]=0x00;
 	}
 	index_buffer_nuevo_comando_recibido=0;
 }
 
 int main(void) {
-	float sensor_de_luz, sensor_de_Temperatura;
+	float sensor_de_luz,sensor_de_Temperatura;
 	bool boton1_activado,boton2_activado;
 	uint8_t nuevo_byte_lpuart0;
 
@@ -129,12 +141,41 @@ int main(void) {
     						 encender_led_verde();
     						break;
     					case LED_VERDE_OFF:
-    					      encender_led_verde();
+    					      apagar_led_verde();
     					    break;
+    					case LED_ROJO_ON:
+    						encender_led_rojo();
+    					    break;
+
+    					case LED_ROJO_OFF:
+    					    apagar_led_rojo();
+    					    break;
+
+    					case Temperatura:
+    						sensor_de_Temperatura = SensorDeTemperaturaObtenerDatoADC();
+    						printf("Temperatura en grados: %.3f\r\n", sensor_de_Temperatura);
+
+    						break;
+
+
+    					case LUZ:
+    						sensor_de_luz = SensorDeLuzObtenerDatoADC();
+    						printf("Luz en lux: %.3f\r\n", sensor_de_luz);
+
+    						break;
+
+
+
+    					case ATI:
+    						printf("ATI\r\n");
+
+    						break;
+
 
     					}
     				}
     			}
+
     			limpiarBufferComando();
     		}
 
@@ -150,8 +191,8 @@ int main(void) {
 
     		if(boton1_activado && !flag_boton1_presionado){
     			flag_boton1_presionado = 1;
-    			sensor_de_luz = SensorDeLuzObtenerDatoADC();
-    			printf("luminosidad en lux: %.3f\r\n", sensor_de_luz);
+    			printf("Boton1\r\n");
+
     		}
 
     		if(!boton1_activado){
@@ -160,8 +201,8 @@ int main(void) {
 
     		if(boton2_activado && !flag_boton2_presionado){
     			flag_boton2_presionado = 1;
-    			sensor_de_Temperatura = SensorDeTemperaturaObtenerDatoADC();
-    			printf("Temperatura en grados: %.3f\r\n", sensor_de_Temperatura);
+    			printf("Boton2\r\n");
+
 
 
     		}
@@ -174,11 +215,11 @@ int main(void) {
 
 
 
-    		if(flag_led_rojo_iqr_counter == 1000){
+    		//if(flag_led_rojo_iqr_counter == 1000){
 
-    		   flag_led_rojo_iqr_counter = 0;
-    		   toggle_led_rojo();
-    	}
+    		   //flag_led_rojo_iqr_counter = 0;
+    		   //toggle_led_rojo();
+    	//}
     }
 
 
