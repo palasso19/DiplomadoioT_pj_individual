@@ -18,17 +18,33 @@
 #include "clock_config.h"
 #include "K32L2B31A.h"
 #include "fsl_debug_console.h"
-
 #include "leds.h"
 #include "sensor_de_luz.h"
 #include "irq_lptmr0.h"
 #include "botones.h"
 #include "sensor_de_Temperatura.h"
-
+#include "irq_lpuart0.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
 
+enum _ec25_lista_comandos_at {
+    kAT = 0,
+    kATI,
+    kAT_CPIN,
+    kAT_CREG,
+    kAT_CMGF_1,
+    kAT_CMGS,
+    kAT_TEXT_MSG_END,
+};
+
+enum _lista_comandos_control {
+	LED_VERDE_ON = 0,
+	LED_VERDE_OFF,
+};
+
+#define COMANDOS_DISPONIBLES  2
+#define SIZE_BUFFER_COMANDO 50
 /*******************************************************************************
  * Private Prototypes
  ******************************************************************************/
@@ -40,16 +56,45 @@
 /*******************************************************************************
  * Local vars
  ******************************************************************************/
-unsigned int test_global_var=100;
-float dato_float=3.1416;
+//Listado de comando AT disponibles para ser enviados al modem Quectel
+
+const char *ec25_comandos_at[] = {
+    "AT",            //comprueba disponibilidad de dispositivo
+	"ATI",            //consulta información del modem
+    "AT+CPIN?",        //consulta estado de la simcard
+    "AT+CREG?",        //consulta estado de la red celular y tecnología usada en red celular
+    "AT+CMGF=1",    //asigna modo texto para enviar mensajes
+    "AT+CMGS=\"300xxxxxxx\"",//envia mensaje de texto a numero definido
+    "Mensaje",         //MENSAJE & CTRL+Z
+    };
+
+const char *ec25_respuestas_at[]={
+
+
+};
+//Listado de comando AT disponibles para ser enviados al modem Quectel
+
+const char *comandos_control[] = {
+    "LED_VERDE_ON",            //Enciende LED
+	"LED_VERDE_OFF",            //Apaga LED
+    };
+char buffer_nuevo_comando_recibido[SIZE_BUFFER_COMANDO];
+uint32_t index_buffer_nuevo_comando_recibido=0;
 /*******************************************************************************
  * Private Source Code
  ******************************************************************************/
 
+void limpiarBufferComando(){
+	for(int i=0;i<SIZE_BUFFER_COMANDO;i++){
+		buffer_nuevo_comando_recibido[i]=0x00;
+	}
+	index_buffer_nuevo_comando_recibido=0;
+}
 
 int main(void) {
 	float sensor_de_luz, sensor_de_Temperatura;
 	bool boton1_activado,boton2_activado;
+	uint8_t nuevo_byte_lpuart0;
 
     /* Init board hardware. */
     BOARD_InitBootPins();
@@ -60,19 +105,42 @@ int main(void) {
     BOARD_InitDebugConsole();
 #endif
 
-    PRINTF("Hello World\r\n");
-    printf("test_global_var:%d\r\n",test_global_var);
-    printf("dato_float:%g\r\n",dato_float);
+    printf("FDRM-K32L2B3 iniciando.....\r\n");
+    printf("%s\r\n",ec25_comandos_at[kAT_CREG]);
+
+
     /* Start counting */
-        LPTMR_StartTimer(LPTMR0);
-
-
-
-
+       LPTMR_StartTimer(LPTMR0);
 
     while(1) {
+    	//pregunta si existe byte disponible
+    	if(numeroDeBytesDisponiblesEnBufferRx()!=0){
+    		nuevo_byte_lpuart0=pullByteDesdeBufferCircular();
+    		buffer_nuevo_comando_recibido[index_buffer_nuevo_comando_recibido]=nuevo_byte_lpuart0;
+    		index_buffer_nuevo_comando_recibido++;
 
-    	if(lptmr0_irq_counter != 0){
+    		char *puntero_ok;
+    		if(nuevo_byte_lpuart0=='\n'){
+    			for(int i=0;i<COMANDOS_DISPONIBLES;i++){
+    			 puntero_ok=(uint8_t*)(strstr((char*)(&buffer_nuevo_comando_recibido[0]),(char*)(comandos_control[i])));
+    				if(puntero_ok!=0){
+    					switch(i){
+    					case LED_VERDE_ON:
+    						 encender_led_verde();
+    						break;
+    					case LED_VERDE_OFF:
+    					      encender_led_verde();
+    					    break;
+
+    					}
+    				}
+    			}
+    			limpiarBufferComando();
+    		}
+
+    	}
+
+         if(lptmr0_irq_counter != 0){
 
 
     		lptmr0_irq_counter = 0;
