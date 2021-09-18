@@ -167,7 +167,7 @@ int main(void) {
 
 
     					case ATI:
-    						printf("ATI\r\n");
+    						printf("COMANDO ATI OK\r\n");
 
     						break;
 
