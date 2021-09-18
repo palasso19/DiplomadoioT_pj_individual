@@ -43,6 +43,7 @@
  ******************************************************************************/
  void encender_led_verde(){
 	 //encender led verde
+	 printf("LED VERDE\r\n");
 	 GPIO_PinWrite(GPIOD, 5, 0);
  }
 
